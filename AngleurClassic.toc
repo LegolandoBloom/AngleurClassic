@@ -1,4 +1,4 @@
-## Interface: 11505
+## Interface: 11506
 ## Title: Angleur - Anniversary/Classic Era/SoD
 ## Notes: Classic Version of the Ultimate One Button Fishing AddOn, Angleur!
 ## Version: Angleur Classic - Angleur 2.1 - Auto-Equip & Tiny Panel
