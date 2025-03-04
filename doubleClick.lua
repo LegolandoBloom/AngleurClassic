@@ -4,44 +4,29 @@ angleurDoubleClick = {
     ignoreNextMouseUp = false,
     iDtoButtonName = {"title(aka useless)", "BUTTON2", "BUTTON1"},
     iDtoLeftRight = {"title(aka useless)", "RightButton", "LeftButton"},
-    hookedregistered = false
 }
 
-function Angleur_RegisterAndHook()
-    if angleurDoubleClick.hookedregistered == true then return end
-    WorldFrame:RegisterForDrag("RightButton")
-    WorldFrame:HookScript("OnDragStart", function(self, button)
-        if IsMouseButtonDown("RightButton") then
-            MouselookStart()
-        end
-    end)
-    angleurDoubleClick.hookedregistered = true
-end
-
-local stuckFrame = CreateFrame("Frame")
-stuckFrame:RegisterEvent("GLOBAL_MOUSE_UP")
-stuckFrame:SetScript("OnEvent", function(self, event, button)
-    if angleurDoubleClick.hookedregistered == false then return end
-    if button ~= "RightButton" then return end
-    if IsMouseButtonDown("RightButton") == false then
-        if IsMouselooking() then
-            MouselookStop() 
-        end
-    end
-end)
+-- !!!! AS OF UNDERMINED, WORLD FRAME NO LONGER RECEIVES DRAG !!!!
+-- !!!! Not necessary in Classic yet, but ported for parity anyway !!!!
+-- function Angleur_RegisterAndHook()
+--     if angleurDoubleClick.hookedregistered == true then return end
+--     WorldFrame:RegisterForDrag("RightButton")
+--     WorldFrame:HookScript("OnDragStart", function(self, button)
+--         if IsMouseButtonDown("RightButton") then
+--             MouselookStart()
+--         end
+--     end)
+--     angleurDoubleClick.hookedregistered = true
+-- end
 
 function Angleur_StuckFix()
-if angleurDoubleClick.hookedregistered == false then return end
+    if AngleurConfig.chosenMethod ~= "doubleClick" then return end
     if IsMouselooking() then
         if IsMouseButtonDown("RightButton") then
 
         else
             MouselookStop()
-            if Angleur_SecretSettings.errorsDisabled == true then return end
-            print("Angleur has encountered an error with the double click system.")
-            print("Hopefully, this shouldn't affect your gameplay, but please let me know if you get this message multiple times.")
-            print("You can contact me on the addon page, or u/LegolandoBloom on reddit.")
-            print("To disable these kinds of messages, type /angdisable")
+            Angleur_BetaPrint("Angleur: Double Click mouse look released")
         end
     end
 end
@@ -56,6 +41,7 @@ function Angleur_DoubleClickWatcher(self, event, button)
         return 
     end
     if event == "GLOBAL_MOUSE_UP" then
+        Angleur_StuckFix()
         if InCombatLockdown() then return end
         if angleurDoubleClick.ignoreNextMouseUp then angleurDoubleClick.ignoreNextMouseUp = false return end
         if not angleurDoubleClick.watching then
@@ -73,6 +59,13 @@ function Angleur_DoubleClickWatcher(self, event, button)
             Angleur_ActionHandler(Angleur)
         end
     elseif event == "GLOBAL_MOUSE_DOWN" then
+        if angleurDoubleClick.watching == true then
+            if IsMouseButtonDown(angleurDoubleClick.iDtoLeftRight[AngleurConfig.doubleClickChosenID]) then
+                MouselookStart()
+            else
+                MouselookStop()
+            end
+        end
         angleurDoubleClick.heldDown = true
         Angleur_PoolDelayer(0.2, 0, 0.05, angleurDelayers, function()
             if angleurDoubleClick.heldDown then

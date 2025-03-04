@@ -185,9 +185,6 @@ function Angleur_EventLoader(self, event, unit, ...)
         if AngleurConfig.ultraFocusingAudio then Angleur_UltraFocusAudio(false) end
         if AngleurConfig.ultraFocusingAutoLoot then Angleur_UltraFocusAutoLoot(false) end
         Init_AngleurSavedVariables()
-        if AngleurConfig.chosenMethod == "doubleClick" then
-            Angleur_RegisterAndHook()
-        end
         if GetCVar("autoLootDefault") == "1" then
             Angleur.configPanel.tab1.contents.ultraFocus.autoLoot:greyOut()
             AngleurConfig.ultraFocusAutoLootEnabled = false
