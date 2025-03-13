@@ -18,9 +18,9 @@ function Angleur_CombatWeaponSwapButtonMixin:setMacro(swapTable)
     local _, firstItemID = next(swapTable)
     local macroBody = ""
     for location, itemID in pairs(swapTable) do
-        local GUID = C_TooltipInfo.GetOwnedItemByID(itemID).guid
-        if GUID then
-            local name = C_Item.GetItemName(C_Item.GetItemLocation(GUID))
+		local count = C_Item.GetItemCount(itemID)
+        if count and count > 0 then
+            local name = C_Item.GetItemNameByID(itemID)
             Angleur_BetaPrint("Angleur_CombatWeaponSwapButtonMixin: ", name)
             macroBody = macroBody .. "/equipslot " .. location .. " " .. name
         end
