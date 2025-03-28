@@ -1,3 +1,5 @@
+local colorDebug = CreateColor(1, 0.41, 0) -- orange
+
 angleurItems = {
     baitPossibilities = {
         {itemID = 111111}, 
@@ -380,7 +382,7 @@ local function startTimer_ItemOrMacro(self, event, unit, ...)
         for i, slot in pairs(Angleur_SlottedExtraItems) do
             if slot.spellID == arg5 or slot.macroSpellID == arg5 then
                 slot.lastUsed = GetTime()
-                Angleur_BetaPrint(i, "delay timer starting")
+                Angleur_BetaPrint(colorDebug:WrapTextInColorCode("Angleur_GrabCursorMacro ") .. ": ", i, "delay timer starting")
                 return
             end
         end

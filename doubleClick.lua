@@ -1,3 +1,5 @@
+local colorDebug = CreateColor(0.9, 0.47, 1) -- lily
+
 angleurDoubleClick = {
     watching = false,
     heldDown = false,
@@ -26,7 +28,7 @@ function Angleur_StuckFix()
 
         else
             MouselookStop()
-            Angleur_BetaPrint("Angleur: Double Click mouse look released")
+            Angleur_BetaPrint(colorDebug:WrapTextInColorCode("Angleur_StuckFix ") .. ": Double Click mouse look released")
         end
     end
 end
